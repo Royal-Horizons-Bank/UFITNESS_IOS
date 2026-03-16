@@ -35,9 +35,11 @@ jobs:
       - name: Find and Stage App Bundle
         run: |
           mkdir -p build-output
-          # Find the .app folder and move it to our staging area
-          find ~/Library/Developer/Xcode/DerivedData -name "*.app" -type d -exec cp -R {} ./build-output/ \;
-          echo "Contents of build-output:"
+          # The .app lives inside the .xcarchive in the Products/Applications folder
+          find ~/Library/Developer/Xcode/Archives -name "*.app" -type d -exec cp -R {} ./build-output/ \;
+          
+          # Verification
+          echo "Checking if we found the app..."
           ls -R build-output
 
       - name: Upload Build Output
