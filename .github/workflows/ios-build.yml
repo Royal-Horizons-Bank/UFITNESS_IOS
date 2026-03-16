@@ -13,6 +13,12 @@ jobs:
         with:
           node-version: 20
 
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2' # Standard version for macOS runners
+          bundler-cache: true
+
       - name: Install Dependencies
         run: npm install
 
