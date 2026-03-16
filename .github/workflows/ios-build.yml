@@ -1,0 +1,31 @@
+name: iOS Build
+on: [push]
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Dependencies
+        run: |
+          npm install
+          cd ios && pod install
+
+      - name: Run Fastlane Build
+        run: bundle exec fastlane build_sideload
+        env:
+          # You might need to add dummy vars here if the build script expects them
+          CI: true
+
+      - name: Upload IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-ipa
+          path: ios/*.ipa
