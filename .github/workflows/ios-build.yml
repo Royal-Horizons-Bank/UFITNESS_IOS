@@ -14,14 +14,16 @@ jobs:
           node-version: 20
 
       - name: Install Dependencies
-        run: |
-          npm install
-          cd ios && pod install
+        run: npm install
+
+      - name: Prebuild iOS Folder
+        # This creates the /ios folder that was missing
+        run: npx expo prebuild --platform ios
 
       - name: Run Fastlane Build
+        # We run it from the root since 'expo prebuild' creates the workspace
         run: bundle exec fastlane build_sideload
         env:
-          # You might need to add dummy vars here if the build script expects them
           CI: true
 
       - name: Upload IPA
