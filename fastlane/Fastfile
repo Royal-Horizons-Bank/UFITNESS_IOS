@@ -3,8 +3,9 @@ default_platform(:ios)
 platform :ios do
   desc "Build a signed IPA for sideloading"
   lane :build_sideload do
-    # 1. Skip codesigning during the initial build to avoid credential errors
+    # Point Fastlane to the workspace created by expo prebuild
     build_app(
+      workspace: "ios/UFitness.xcworkspace", # Usually named after your project
       scheme: "UFitness",
       export_method: "development",
       skip_profile_detection: true,
