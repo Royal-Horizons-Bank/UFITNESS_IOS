@@ -32,9 +32,16 @@ jobs:
         env:
           CI: true
 
+      - name: Find and Stage App Bundle
+        run: |
+          mkdir -p build-output
+          # Find the .app folder and move it to our staging area
+          find ~/Library/Developer/Xcode/DerivedData -name "*.app" -type d -exec cp -R {} ./build-output/ \;
+          echo "Contents of build-output:"
+          ls -R build-output
+
       - name: Upload Build Output
         uses: actions/upload-artifact@v4
         with:
           name: UFitness-App-Bundle
-          # This looks for the compiled .app inside the build logs path
-          path: ~/Library/Developer/Xcode/DerivedData/**/Build/Products/Release-iphoneos/*.app
+          path: build-output/
